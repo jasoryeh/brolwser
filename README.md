@@ -1,6 +1,8 @@
 # brolwser
 
-I thought about the Steam in-game browser, and just wanted to make a somewhat better, simple browser for in-game usage. (Yes I know there are people with two monitors)
+I thought about the Steam in-game browser, and just wanted to make a somewhat better, simple browser for in-game usage. (Yes I know there are people with two monitors).
+
+Built. With. electron.
 
 ## Done?
 
