@@ -3,30 +3,30 @@ body {
 }
 
 .browser {
-     background-color: white;
-     color: black;
-     padding: 3px;
-     padding-bottom: 1em;
-     padding-left: .5em;
-     padding-right: .5em;
-     position: absolute;
-     z-index: 9;
-     resize: both;
-     overflow: hidden;
-     height: 80%;
-     width: 90%;
-     border-radius: 2px;
+    background-color: white;
+    color: black;
+    padding: 3px;
+    padding-bottom: 1em;
+    padding-left: .5em;
+    padding-right: .5em;
+    position: absolute;
+    z-index: 9;
+    resize: both;
+    overflow: hidden;
+    height: 80%;
+    width: 90%;
+    border-radius: 2px;
 }
  .browser-frame-url {
-     width: 90%;
-     border-radius: 3px;
-     border: none;
-     border: grey, 1px;
-     font-family: 'Open Sans', sans-serif;
-     resize: none;
-     white-space: nowrap;
-     overflow-x: hidden;
-     height: 1.5em;
+    width: 90%;
+    border-radius: 3px;
+    border: none;
+    border: grey, 1px;
+    font-family: 'Open Sans', sans-serif;
+    resize: none;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 1.5em;
 }
 
 .browser-frame {
@@ -34,21 +34,21 @@ body {
 }
 
  .browser-frame-browser {
-     border: none;
-     width: 100%;
-     height: 100%;
+    border: none;
+    width: 100%;
+    height: 96%;
 }
  .browser-dragger {
-     font-size: 14px;
-     font-weight: bold;
-     padding: 10px;
-     cursor: move;
-     z-index: 10;
-     line-height: 20px;
-     margin-bottom: 5px;
-     margin-top: 5px;
-     width: 100%;
-     height: 25px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    line-height: 20px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    width: 100%;
+    height: 25px;
 }
 
 .browser-nav-button {

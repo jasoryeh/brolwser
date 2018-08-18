@@ -14,7 +14,8 @@
     <script src="assets/main/brolwser.js"></script>
   </head>
   
-  <body id="body" style="margin: 5em; font-family: 'Open Sans', sans-serif; background-color: white; color: white; transition: opacity 1s, background-color 2s; opacity: 0.0;">
+  <!--<body id="body" style="margin: 5em; font-family: 'Open Sans', sans-serif; background-color: white; color: white; transition: opacity 1s, background-color 2s; opacity: 0.0;">-->
+  <body id="body" style="margin: 5em; font-family: 'Open Sans', sans-serif; transition: opacity 1s, background-color 2s; opacity: 0.0;">
     <div id="content">
         <!-- Browser divs -->
         <!-- 
@@ -33,7 +34,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </body>
   <script>
-    try {
         const {ipcRenderer} = require('electron');
         
         function log(m) {
@@ -61,6 +61,9 @@
             doccoDragger.className = "browser-dragger";
             doccoDragger.innerHTML = "brolwser overlay";
             docco.appendChild(doccoDragger);
+
+            var doccoBreakOne = document.createElement("br");
+            docco.appendChild(doccoBreakOne);
             
             var doccoFrameDiv = document.createElement("div");
             doccoFrameDiv.className = "browser-frame";
@@ -73,15 +76,15 @@
             navArrowLeft.setAttribute("aria-hidden", "true");
             doccoFrameNav.appendChild(navArrowLeft);
             
-            var navArrowLeft = document.createElement("i");
-            navArrowLeft.className = "fas fa fa-arrow-right browser-nav-button";
-            navArrowLeft.setAttribute("aria-hidden", "true");
-            doccoFrameNav.appendChild(navArrowLeft);
+            var navArrowRight = document.createElement("i");
+            navArrowRight.className = "fas fa fa-arrow-right browser-nav-button";
+            navArrowRight.setAttribute("aria-hidden", "true");
+            doccoFrameNav.appendChild(navArrowRight);
             
-            var navArrowLeft = document.createElement("i");
-            navArrowLeft.className = "fas fa fa-circle browser-nav-button";
-            navArrowLeft.setAttribute("aria-hidden", "true");
-            doccoFrameNav.appendChild(navArrowLeft);
+            var navRefresh = document.createElement("i");
+            navRefresh.className = "fas fa fa-circle browser-nav-button";
+            navRefresh.setAttribute("aria-hidden", "true");
+            doccoFrameNav.appendChild(navRefresh);
             
             var doccoFrameUrlInput = document.createElement("input");
             doccoFrameUrlInput.setAttribute("type", "text");
@@ -98,6 +101,37 @@
             
             docco.appendChild(doccoFrameDiv);
             
+            
+            // Listeners
+            navArrowRight.onmouseup = () => {
+                doccoFrameBrowser.goForward();
+            }
+            navArrowLeft.onmouseup = () => {
+                doccoFrameBrowser.goBack();
+            }
+            navRefresh.onmouseup = () => {
+                if(!doccoFrameBrowser.isLoading()) {
+                    doccoFrameBrowser.reload();
+                } else {
+                    doccoFrameBrowser.stop();
+                }
+            }
+            doccoFrameUrlInput.onkeyup = e => {
+                if(e.keyCode === 13) {
+                    var navto = e.target.value;
+                    console.log(navto);
+                    if(!navto.startsWith("http")) {
+                        if(!navto.includes(" ") && navto.includes(".")) {
+                            navto = "http://" + navto;
+                        } else {
+                            navto = "https://google.com/search?q=" + encodeURI(navto);
+                        }
+                    }
+                    e.target.value = navto;
+                    doccoFrameBrowser.src = navto;
+                }
+            }
+            
             return docco;
         }
         
@@ -105,7 +139,7 @@
             // stuff
             var body = document.getElementById('body');
             body.style.opacity = "1.0";
-            body.style.backgroundColor = "black";
+            //body.style.backgroundColor = "black";
             
             window.onunload = () => {
                 body.style.backgroundColor = "white";
@@ -113,7 +147,21 @@
             
             register();
             
+            /*setInterval(() => {
+                ipcRenderer.send("setfs", "false");
+                var elementOvers = document.querySelectorAll(":hover");
+                var elementOver = elementOvers[elementOvers.length-1];
+                if(elementOver === undefined) return;
+                console.log(elementOver.tagName);
+                if(elementOver.tagName == "HTML" || elementOver.tagName == "BODY") {
+                    ipcRenderer.send("setfs", "true");
+                } else {
+                    ipcRenderer.send("setfs", "false");
+                }
+            }, 100);*/
+            
             setInterval(() => {
+                
                 var temp = document.getElementById("content").children;
                 for(var x in temp) {
                     try {
@@ -121,8 +169,10 @@
                         var title = currentElement.getElementsByClassName("browser-frame-browser")[0].getTitle();
                         var src = currentElement.getElementsByClassName("browser-frame-browser")[0].src;
                         currentElement.getElementsByClassName("browser-dragger")[0].innerHTML = "brolwser overlay - " + title;
-                        currentElement.getElementsByClassName("browser-frame-url")[0].value = src;
-                    } catch(e) { log(e); }
+                        if(currentElement.getElementsByClassName("browser-frame-url")[0] != document.activeElement) {
+                            currentElement.getElementsByClassName("browser-frame-url")[0].value = src;
+                        }
+                    } catch(e) { /*log(e);*/ }
                 }
             }, 1000);
         }
@@ -133,6 +183,5 @@
             log('Ping:' + arg);
             go();
         });
-    } catch(e) { console.log(e); }
   </script>
 </html>

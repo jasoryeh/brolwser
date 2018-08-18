@@ -14,8 +14,8 @@ function createWindow() {
     win = new BrowserWindow({
         title: "brolwser",
         //icon: path.join(__dirname, 'assets/icon.png'),
-        frame: false
-        //transparent: true,
+        frame: false,
+        transparent: true,
         //alwaysOnTop: true
     })
     
@@ -52,6 +52,12 @@ function createWindow() {
     })
     
     // add window mods here.
+    
+    //app.dock.hide()
+    //win.setAlwaysOnTop(true, "floating")
+    //win.setVisibleOnAllWorkspaces(true)
+    //win.setFullScreenable(false)
+    //app.dock.show()
     
     console.log("Reloading window properties")
     win.reload()
@@ -100,10 +106,18 @@ app.on('activate', () => {
 
 var clickThrough = false;
 
-ipcMain.on('toggle-clickthrough', (event, arg) => {
+ipcMain.on('setfs', (event, arg) => {
+    /*if(args == "true") {
+        win.setAlwaysOnTop(true, "floating")
+        win.setVisibleOnAllWorkspaces(true)
+        win.setFullScreenable(false)
+    } else if(args == "false") {
+        win.setAlwaysOnTop(false, "floating")
+        win.setVisibleOnAllWorkspaces(false)
+        win.setFullScreenable(true)
+    }*/
     //console.log(arg);
     if(arg === "get") {
-        //console.log("returning");
         event.returnValue = clickThrough.toString;
         return;
     }
@@ -114,8 +128,6 @@ ipcMain.on('toggle-clickthrough', (event, arg) => {
     } else {
         clickThrough = !clickThrough;
     }
-    //console.log(clickThrough);
-    //console.log("Recieved wnbu");
     if(win === null || win === undefined) return;
     win.setIgnoreMouseEvents(clickThrough, {forward: true});
 })
