@@ -172,3 +172,16 @@ ipcMain.on('run-program', (event, arg) => {
         console.log(data);
     });
 });
+
+
+ipcMain.on('close', (event, arg) => {
+    win = null;
+    app.quit();
+});
+
+ipcMain.on('run-program', (event, arg) => {
+    child(arg, "", (err, data) => {
+        console.log(err);
+        console.log(data);
+    });
+});

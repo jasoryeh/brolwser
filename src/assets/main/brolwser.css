@@ -2,6 +2,11 @@ body {
     overflow: hidden;
 }
 
+.exitButton {
+    color: #ff6868;
+    float: right;
+}
+
 .browser {
     background-color: white;
     color: black;

@@ -15,7 +15,7 @@
   </head>
   
   <!--<body id="body" style="margin: 5em; font-family: 'Open Sans', sans-serif; background-color: white; color: white; transition: opacity 1s, background-color 2s; opacity: 0.0;">-->
-  <body id="body" style="margin: 5em; font-family: 'Open Sans', sans-serif; transition: opacity 1s, background-color 2s; opacity: 0.0;">
+  <body id="body" style="margin: 5em; font-family: 'Open Sans', sans-serif; transition: opacity 2s; opacity: 0.0;">
     <div id="content">
         <!-- Browser divs -->
         <!-- 
@@ -61,7 +61,12 @@
             doccoDragger.className = "browser-dragger";
             doccoDragger.innerHTML = "brolwser overlay";
             docco.appendChild(doccoDragger);
-
+            
+            var exitButton = document.createElement("i");
+            exitButton.className = "fas fa fa-circle browser-nav-button exitButton";
+            exitButton.setAttribute("aria-hidden", "true");
+            docco.appendChild(exitButton);
+            
             var doccoBreakOne = document.createElement("br");
             docco.appendChild(doccoBreakOne);
             
@@ -103,6 +108,12 @@
             
             
             // Listeners
+            exitButton.onmouseup = () => {
+                document.getElementById("content").style.opacity = "0.0";
+                setTimeout(() => {
+                    ipcRenderer.send("close", "");
+                }, 2500);
+            }
             navArrowRight.onmouseup = () => {
                 doccoFrameBrowser.goForward();
             }
