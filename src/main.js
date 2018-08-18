@@ -70,6 +70,13 @@ function createWindow() {
     })
     globalShortcut.register('2', function(){
         win.loadURL(url.format({
+            pathname: path.join(__dirname, 'window.html'),
+            protocol: 'file:',
+            slashes: true
+        }))
+    })
+    globalShortcut.register('3', function(){
+        win.loadURL(url.format({
             pathname: path.join(__dirname, 'overlay.html'),
             protocol: 'file:',
             slashes: true
@@ -112,6 +119,40 @@ ipcMain.on('toggle-clickthrough', (event, arg) => {
     if(win === null || win === undefined) return;
     win.setIgnoreMouseEvents(clickThrough, {forward: true});
 })
+
+ipcMain.on('pingelectron', (event, arg) => {
+    console.log('Ping:' + arg)
+    event.sender.send('pingback', 'pong');
+});
+
+ipcMain.on('log', (event, arg) => {
+    console.log(arg)
+    event.sender.send('logback', 'success');
+});
+
+ipcMain.on('load', (event, arg) => {
+    console.log("Load:" + arg)
+    if(arg == "1") {
+        win.loadURL(url.format({
+            pathname: path.join(__dirname, 'index.html'),
+            protocol: 'file:',
+            slashes: true
+        }))
+    } else if(arg == "2") {
+        win.loadURL(url.format({
+            pathname: path.join(__dirname, 'window.html'),
+            protocol: 'file:',
+            slashes: true
+        }))
+    } else if(arg == "3") {
+        win.loadURL(url.format({
+            pathname: path.join(__dirname, 'overlay.html'),
+            protocol: 'file:',
+            slashes: true
+        }))
+    }
+    event.sender.send('loadback', 'success')
+});
 
 ipcMain.on('run-program', (event, arg) => {
     child(arg, "", (err, data) => {
