@@ -1,5 +1,29 @@
-html {
-    margin: 0;
-    padding: 0;
+.browser {
+     background-color: white;
+     color: black;
+     padding: 3px;
+     padding-bottom: 1em;
+     padding-left: .5em;
+     padding-right: .5em;
+     position: absolute;
+     z-index: 9;
+     resize: both;
+     overflow: hidden;
+     height: 80%;
+     width: 90%;
 }
-
+ .browser-frame-url {
+     width: 90%;
+}
+ .browser-frame-browser {
+     border: none;
+     width: 95%;
+     height: 100%;
+}
+ .browser-dragger {
+     font-size: 14px;
+     font-weight: bold;
+     padding: 10px;
+     cursor: move;
+     z-index: 10;
+}
