@@ -5,25 +5,29 @@
     <meta charset="utf-8">
     <title>brolwser</title>
     
-    <link rel="stylesheet" href="assets/main/brolwser.css" />
-    <script type="text/javascript" src="assets/main/brolwser.js"></script>
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script src="https://use.fontawesome.com/8acaad629b.js"></script><link href="https://use.fontawesome.com/8acaad629b.css" media="all" rel="stylesheet"><link href="https://use.fontawesome.com/8acaad629b.css" media="all" rel="stylesheet">
+
     <link href="assets/main/brolwser.css" rel="stylesheet">
     <script src="assets/main/brolwser.js"></script>
-    <script src="https://use.fontawesome.com/8acaad629b.js"></script><link href="https://use.fontawesome.com/8acaad629b.css" media="all" rel="stylesheet"><link href="https://use.fontawesome.com/8acaad629b.css" media="all" rel="stylesheet">
   </head>
   
   <body id="body" style="margin: 5em; font-family: 'Open Sans', sans-serif; background-color: white; color: white; transition: opacity 1s, background-color 2s; opacity: 0.0;">
     <div id="content">
-        <div class="browser">
+        <!-- Browser divs -->
+        <!-- 
+        How it would look like:
+        <div class="browser" id="browser-session-0">
             <span class="browser-dragger">brolwser overlay</span>
             <div class="browser-frame">
-                <input type="text" class="browser-frame-url"></input>
-                <webview class="border-frame-browser" src="https://google.com"></webview>
+                <input type="text" class="browser-frame-url">
+                <webview src="https://www.google.com/" class="browser-frame-browser"></webview>
             </div>
         </div>
+        <i class="fa fa-server" aria-hidden="true"></i>
+        -->
     </div>
   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -39,9 +43,62 @@
             } catch(e) {}
         }
         
+        var sessions = 0;
+        
         function register(element) {
-            var elem = document.getElementsByClassName(elementid)[0];
-            Dragger.dragElement(elem);
+            var elem = create();
+            elem.id = "browser-session-" + sessions++;
+            
+            document.getElementById("content").appendChild(elem);
+            DraggerHelper.dragElement(elem);
+        }
+        
+        function create() {
+            var docco = document.createElement("div");
+            docco.className = "browser";
+            
+            var doccoDragger = document.createElement("span");
+            doccoDragger.className = "browser-dragger";
+            doccoDragger.innerHTML = "brolwser overlay";
+            docco.appendChild(doccoDragger);
+            
+            var doccoFrameDiv = document.createElement("div");
+            doccoFrameDiv.className = "browser-frame";
+            
+            var doccoFrameNav = document.createElement("div");
+            doccoFrameNav.className = "browser-frame-nav";
+            
+            var navArrowLeft = document.createElement("i");
+            navArrowLeft.className = "fas fa fa-arrow-left browser-nav-button";
+            navArrowLeft.setAttribute("aria-hidden", "true");
+            doccoFrameNav.appendChild(navArrowLeft);
+            
+            var navArrowLeft = document.createElement("i");
+            navArrowLeft.className = "fas fa fa-arrow-right browser-nav-button";
+            navArrowLeft.setAttribute("aria-hidden", "true");
+            doccoFrameNav.appendChild(navArrowLeft);
+            
+            var navArrowLeft = document.createElement("i");
+            navArrowLeft.className = "fas fa fa-circle browser-nav-button";
+            navArrowLeft.setAttribute("aria-hidden", "true");
+            doccoFrameNav.appendChild(navArrowLeft);
+            
+            var doccoFrameUrlInput = document.createElement("input");
+            doccoFrameUrlInput.setAttribute("type", "text");
+            doccoFrameUrlInput.className = "browser-frame-url";
+            doccoFrameNav.appendChild(doccoFrameUrlInput);
+            
+            doccoFrameDiv.appendChild(doccoFrameNav);
+            
+            var doccoFrameBrowser = document.createElement("webview");
+            doccoFrameBrowser.src = "https://google.com/";
+            doccoFrameBrowser.className = "browser-frame-browser";
+            doccoFrameBrowser.setAttribute("allowfullscreen", "");
+            doccoFrameDiv.appendChild(doccoFrameBrowser);
+            
+            docco.appendChild(doccoFrameDiv);
+            
+            return docco;
         }
         
         function go() {
@@ -49,11 +106,25 @@
             var body = document.getElementById('body');
             body.style.opacity = "1.0";
             body.style.backgroundColor = "black";
+            
             window.onunload = () => {
                 body.style.backgroundColor = "white";
             };
             
-            register("browser");
+            register();
+            
+            setInterval(() => {
+                var temp = document.getElementById("content").children;
+                for(var x in temp) {
+                    try {
+                        var currentElement = temp[x];
+                        var title = currentElement.getElementsByClassName("browser-frame-browser")[0].getTitle();
+                        var src = currentElement.getElementsByClassName("browser-frame-browser")[0].src;
+                        currentElement.getElementsByClassName("browser-dragger")[0].innerHTML = "brolwser overlay - " + title;
+                        currentElement.getElementsByClassName("browser-frame-url")[0].value = src;
+                    } catch(e) { log(e); }
+                }
+            }, 1000);
         }
         
         var commTo = ipcRenderer.send('pingelectron', 'ping');

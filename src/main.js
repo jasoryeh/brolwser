@@ -57,7 +57,7 @@ function createWindow() {
     win.reload()
     
     console.log("Registering escape shortcut")
-    globalShortcut.register('Escape', function(){
+    /*globalShortcut.register('Escape', function(){
         win = null
         app.quit()
     })
@@ -81,7 +81,7 @@ function createWindow() {
             protocol: 'file:',
             slashes: true
         }))
-    })
+    })*/
 }
 
 app.on('ready', createWindow)
@@ -140,7 +140,7 @@ ipcMain.on('load', (event, arg) => {
         }))
     } else if(arg == "2") {
         win.loadURL(url.format({
-            pathname: path.join(__dirname, 'window.html'),
+            pathname: path.join(__dirname, 'overlay.html'),
             protocol: 'file:',
             slashes: true
         }))

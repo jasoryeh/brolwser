@@ -1,20 +1,17 @@
-class Dragger {
-    function dragElement(elmnt) {
+
+class DraggerHelper {
+    static dragElement(elmnt) {
         var pos1 = 0,
             pos2 = 0,
             pos3 = 0,
             pos4 = 0;
         if (elmnt.getElementsByClassName(elmnt.className + "-dragger")[0]) {
             /* if present, the header is where you move the DIV from:*/
-            element.getElementByClassName(elmnt.className + "-dragger")[0].onmousedown = dragMouseDown;
+            elmnt.getElementsByClassName(elmnt.className + "-dragger")[0].onmousedown = dragMouseDown;
         } else {
             /* otherwise, move the DIV from anywhere inside the DIV:*/
             elmnt.onmousedown = dragMouseDown;
         }
-        $('.resizable').resizable({
-            //aspectRatio: true, //comment or remove this
-            handles: 'ne, se, sw, nw'
-        });
 
         function dragMouseDown(e) {
             e = e || window.event;

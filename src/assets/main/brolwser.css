@@ -1,3 +1,7 @@
+body {
+    overflow: hidden;
+}
+
 .browser {
      background-color: white;
      color: black;
@@ -11,13 +15,27 @@
      overflow: hidden;
      height: 80%;
      width: 90%;
+     border-radius: 2px;
 }
  .browser-frame-url {
      width: 90%;
+     border-radius: 3px;
+     border: none;
+     border: grey, 1px;
+     font-family: 'Open Sans', sans-serif;
+     resize: none;
+     white-space: nowrap;
+     overflow-x: hidden;
+     height: 1.5em;
 }
+
+.browser-frame {
+    height: 100%;
+}
+
  .browser-frame-browser {
      border: none;
-     width: 95%;
+     width: 100%;
      height: 100%;
 }
  .browser-dragger {
@@ -26,4 +44,19 @@
      padding: 10px;
      cursor: move;
      z-index: 10;
+     line-height: 20px;
+     margin-bottom: 5px;
+     margin-top: 5px;
+     width: 100%;
+     height: 25px;
+}
+
+.browser-nav-button {
+    padding-left: 5px;
+    padding-right: 5px;
+    line-height: 20px;
+}
+
+.browser-frame-nav {
+    line-height: 20px;
 }
