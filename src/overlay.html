@@ -20,14 +20,7 @@
         <!-- Browser divs -->
         <!-- 
         How it would look like:
-        <div class="browser" id="browser-session-0">
-            <span class="browser-dragger">brolwser overlay</span>
-            <div class="browser-frame">
-                <input type="text" class="browser-frame-url">
-                <webview src="https://www.google.com/" class="browser-frame-browser"></webview>
-            </div>
-        </div>
-        <i class="fa fa-server" aria-hidden="true"></i>
+
         -->
     </div>
   
@@ -57,18 +50,28 @@
             var docco = document.createElement("div");
             docco.className = "browser";
             
+            var windowControlDiv = document.createElement("div");
+            windowControlDiv.className = "window-control";
+            
             var doccoDragger = document.createElement("span");
             doccoDragger.className = "browser-dragger";
             doccoDragger.innerHTML = "brolwser overlay";
-            docco.appendChild(doccoDragger);
+            windowControlDiv.appendChild(doccoDragger);
             
+            var minButton = document.createElement("i");
+            minButton.className = "fas fa fa-circle window-control-buttons minButton";
+            minButton.setAttribute("aria-hidden", "true");
+            windowControlDiv.appendChild(minButton);
+            var windowButton = document.createElement("i");
+            windowButton.className = "fas fa fa-circle window-control-buttons windowButton";
+            windowButton.setAttribute("aria-hidden", "true");
+            windowControlDiv.appendChild(windowButton);
             var exitButton = document.createElement("i");
-            exitButton.className = "fas fa fa-circle browser-nav-button exitButton";
+            exitButton.className = "fas fa fa-circle window-control-buttons exitButton";
             exitButton.setAttribute("aria-hidden", "true");
-            docco.appendChild(exitButton);
+            windowControlDiv.appendChild(exitButton);
             
-            var doccoBreakOne = document.createElement("br");
-            docco.appendChild(doccoBreakOne);
+            docco.appendChild(windowControlDiv);
             
             var doccoFrameDiv = document.createElement("div");
             doccoFrameDiv.className = "browser-frame";
@@ -108,6 +111,12 @@
             
             
             // Listeners
+            minButton.onmouseup = () => {
+                ipcRenderer.send("minimize", "");
+            }
+            windowButton.onmouseup = () => {
+                ipcRenderer.send("window", "");
+            }
             exitButton.onmouseup = () => {
                 document.getElementById("content").style.opacity = "0.0";
                 setTimeout(() => {

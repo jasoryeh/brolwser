@@ -14,8 +14,8 @@ function createWindow() {
     win = new BrowserWindow({
         title: "brolwser",
         icon: path.join(__dirname, 'assets/icon.png'),
-        frame: false,
-        transparent: true,
+        frame: false
+        //transparent: true,
         //alwaysOnTop: true
     })
     
@@ -107,16 +107,6 @@ app.on('activate', () => {
 var clickThrough = false;
 
 ipcMain.on('setfs', (event, arg) => {
-    /*if(args == "true") {
-        win.setAlwaysOnTop(true, "floating")
-        win.setVisibleOnAllWorkspaces(true)
-        win.setFullScreenable(false)
-    } else if(args == "false") {
-        win.setAlwaysOnTop(false, "floating")
-        win.setVisibleOnAllWorkspaces(false)
-        win.setFullScreenable(true)
-    }*/
-    //console.log(arg);
     if(arg === "get") {
         event.returnValue = clickThrough.toString;
         return;
@@ -166,22 +156,27 @@ ipcMain.on('load', (event, arg) => {
     event.sender.send('loadback', 'success')
 });
 
-ipcMain.on('run-program', (event, arg) => {
-    child(arg, "", (err, data) => {
-        console.log(err);
-        console.log(data);
-    });
+ipcMain.on('minimize', (event, arg) => {
+    win.minimize()
+});
+
+ipcMain.on('window', (event, arg) => {
+    if(win.isMaximized()) {
+        win.setSize(800, 600)
+    } else {
+        win.maximize()
+    }
 });
 
 
 ipcMain.on('close', (event, arg) => {
-    win = null;
-    app.quit();
+    win = null
+    app.quit()
 });
 
 ipcMain.on('run-program', (event, arg) => {
     child(arg, "", (err, data) => {
-        console.log(err);
-        console.log(data);
+        console.log(err)
+        console.log(data)
     });
 });
