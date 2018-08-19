@@ -1,0 +1,7 @@
+language: node_js
+
+before_install:
+  - npm install -g electron-forge
+  - npm install -g electron
+install:
+  - electron-forge make
